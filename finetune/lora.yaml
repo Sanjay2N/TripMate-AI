@@ -1,0 +1,27 @@
+# MLX LoRA fine-tune of the base model on the generated conversations.
+#   uv sync --extra finetune
+#   uv run mlx_lm.lora --config finetune/lora.yaml
+# Trains on full-precision weights so the fused model converts cleanly to GGUF.
+model: Qwen/Qwen2.5-1.5B-Instruct
+train: true
+data: finetune/data            # train.jsonl / valid.jsonl from `tripmate split`
+adapter_path: finetune/adapters
+fine_tune_type: lora
+mask_prompt: true              # loss only on the assistant's JSON, not on the long context
+num_layers: 16                 # top transformer blocks that get adapters
+batch_size: 1                  # samples are 1.9k tokens median, 3k max; raise with care on 24 GB
+grad_accumulation_steps: 8
+iters: 900                     # counted in batches, not optimizer steps: ~2.4 passes over 379
+                               # samples (edit turns doubled with `split --edit-weight 2`);
+                               # earlier runs were best at ~2 passes. ~112 weight updates
+learning_rate: 2.0e-4          # few updates, so a little higher than usual
+max_seq_length: 3072           # longest sample is 2,987 tokens; longer would be truncated
+steps_per_report: 10
+steps_per_eval: 150
+val_batches: 20
+save_every: 150
+seed: 0
+lora_parameters:
+  rank: 16
+  scale: 20.0
+  dropout: 0.05

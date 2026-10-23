@@ -1,0 +1,20 @@
+# The deployed choice: v2 adapter (checkpoint 600), reply-first envelope, run with repair on.
+# Built from the saved Q4_K_M GGUF, same template and context as the baseline.
+# Build with: ollama create tripmate-ft -f finetune/Modelfile.v2
+FROM ./tripmate-v2-q4_k_m.gguf
+PARAMETER num_ctx 8192
+PARAMETER stop <|im_start|>
+PARAMETER stop <|im_end|>
+TEMPLATE """{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 -}}
+{{- if eq .Role "system" }}<|im_start|>system
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "user" }}<|im_start|>user
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "assistant" }}<|im_start|>assistant
+{{ .Content }}{{ if not $last }}<|im_end|>
+{{ end }}
+{{- end }}
+{{- if and (ne .Role "assistant") $last }}<|im_start|>assistant
+{{ end }}
+{{- end }}"""

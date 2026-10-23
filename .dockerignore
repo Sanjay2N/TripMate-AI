@@ -1,0 +1,11 @@
+.venv
+.git
+**/__pycache__
+.DS_Store
+data/raw
+data/index
+data/profiles
+finetune
+RAG data
+PRD
+tests
