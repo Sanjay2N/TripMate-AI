@@ -1,0 +1,42 @@
+[project]
+name = "tripmate"
+version = "0.1.0"
+description = "TripMate AI - RAG + fine-tuned small model travel planner"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "httpx>=0.27",
+    "pyyaml>=6.0",
+    "numpy>=1.26",
+    "mwparserfromhell>=0.6.6",
+    "qdrant-client>=1.12",
+    "fastembed>=0.4",
+    "openai>=1.50",
+    "streamlit>=1.38",
+]
+
+[project.optional-dependencies]
+# Apple-silicon only; kept out of the deploy image.
+finetune = ["mlx-lm>=0.21"]
+
+[project.scripts]
+tripmate = "tripmate.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tripmate"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

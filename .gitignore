@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# TripMate
+data/index/
+finetune/adapters/
+finetune/fused/
+*.gguf
+data/raw/
+data/profiles/

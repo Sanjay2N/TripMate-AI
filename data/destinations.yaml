@@ -1,0 +1,21 @@
+# Each destination maps to one or more Wikivoyage pages (region pages hold few listings;
+# the town pages under them hold most). Titles are resolved with redirects.
+# `profile` is the destination's name in the Kaggle tourism dataset when it differs.
+destinations:
+  - {name: Goa, pages: [Goa, Panaji, Old Goa, Calangute, Baga, Candolim, Anjuna, Palolem, Margao]}
+  - {name: Jaipur, pages: [Jaipur]}
+  - {name: Udaipur, pages: [Udaipur]}
+  - {name: Hampi, pages: [Hampi]}
+  - {name: Mysuru, pages: [Mysore]}
+  - {name: Coorg, profile: "Coorg (Kodagu)", pages: [Kodagu, Madikeri]}
+  - {name: Ooty, profile: "Ooty (Udhagamandalam)", pages: [Ooty, Coonoor]}
+  - {name: Munnar, pages: [Munnar]}
+  - {name: Kochi, pages: [Kochi, Kochi/Old Kochi, Kochi/Ernakulam, Kochi/Goshree, Kochi/Thrippunithura, Kochi/Kalamassery]}
+  - {name: Puducherry, profile: "Pondicherry (Puducherry)", pages: [Puducherry, Auroville]}
+  - {name: Manali, pages: [Manali]}
+  - {name: Rishikesh, pages: [Rishikesh]}
+  - {name: Varanasi, profile: "Varanasi (Kashi)", pages: [Varanasi, Sarnath]}
+  - {name: Gokarna, pages: [Gokarna]}
+
+# Departure cities: only coordinates are needed (for intercity distance estimates).
+sources: [Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Ahmedabad]

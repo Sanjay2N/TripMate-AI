@@ -1,0 +1,21 @@
+# The fine-tuned model: fused safetensors imported and quantized to Q4_K_M by Ollama, the
+# same quantization as the qwen2.5:1.5b baseline, with the same context window and the
+# Qwen ChatML format the adapter was trained on (tool-calling parts left out).
+# Build with: finetune/export.sh   (runs: ollama create tripmate-ft -q q4_K_M -f finetune/Modelfile.tuned)
+FROM ./fused
+PARAMETER num_ctx 8192
+PARAMETER stop <|im_start|>
+PARAMETER stop <|im_end|>
+TEMPLATE """{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 -}}
+{{- if eq .Role "system" }}<|im_start|>system
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "user" }}<|im_start|>user
+{{ .Content }}<|im_end|>
+{{ else if eq .Role "assistant" }}<|im_start|>assistant
+{{ .Content }}{{ if not $last }}<|im_end|>
+{{ end }}
+{{- end }}
+{{- if and (ne .Role "assistant") $last }}<|im_start|>assistant
+{{ end }}
+{{- end }}"""

@@ -1,0 +1,4 @@
+# Baseline: the untouched base model with a context window large enough for our prompts.
+# Build with: ollama create tripmate-base -f finetune/Modelfile.base
+FROM qwen2.5:1.5b
+PARAMETER num_ctx 8192
